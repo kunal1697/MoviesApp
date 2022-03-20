@@ -14,7 +14,11 @@ function App() {
     <Routes>
       <Route path="/" element= {<><Banner/>
       <Movies/>
-      {/* <Pagination/> */}
+   
+      </>} />
+      <Route path="/MoviesApp" element= {<><Banner/>
+      <Movies/>
+   
       </>} />
       <Route path="/favourites" element={<Favourites/>}></Route>
     </Routes>
