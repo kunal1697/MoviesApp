@@ -15,18 +15,21 @@ function Movies() {
   const [page,setPage] = useState(1);
   const [hover,setHover]= useState("");
   const [favourites,setFavourites]= useState([]);
-  function PreviousPage(){
+  function goBack(){
       if(page>1){
       setPage(page-1);
       }
   }
-  function NextPage(){
+  function goAhead(){
       setPage(page+1);
   }
 
     useEffect(function(){
         axios.get(`https://api.themoviedb.org/3/trending/movie/week?api_key=74ec6f93a0917e170ed75b4686ed9c85&page=${page}`).then((res)=>{
             setMovies(res.data.results);
+            let oldFav=localStorage.getItem("imdb");
+            oldFav=JSON.parse(oldFav) || [];
+            setFavourites([...oldFav]);
         })
     },[page])
   
@@ -34,9 +37,12 @@ function Movies() {
       let newArray=[...favourites,movie]
       setFavourites([...newArray]);
       console.log(newArray);
+      localStorage.setItem("imdb",JSON.stringify(newArray));
   }
   let remove=(movie)=>{
-        
+        let newArray=favourites.filter((m)=>m.id!=movie.id)
+        setFavourites([...newArray]);
+        localStorage.setItem("imdb",JSON.stringify(newArray))
   }
 
   return <>
@@ -65,7 +71,7 @@ function Movies() {
          hover === movie.id &&<>{ !favourites.find((m)=>m.id==movie.id) ?
             <div className='absolute top-2 right-2 bg-gray-800 p-2 text-xl rounded-xl cursor-pointer' onClick={()=>add(movie)}>😍</div>
             :
-            <div className='absolute top-2 right-2 bg-gray-800 p-2 text-xl rounded-xl cursor-pointer' onClick={()=>add(movie)}>❌</div>
+            <div className='absolute top-2 right-2 bg-gray-800 p-2 text-xl rounded-xl cursor-pointer' onClick={()=>remove(movie)}>❌</div>
          } 
          
         
@@ -83,7 +89,7 @@ function Movies() {
  
  }
  </div>
- <Pagination pageProp={page} NextPage={NextPage} PreviousPage={PreviousPage} />
+ <Pagination pageProp={page} goAhead={goAhead} goBack={goBack} />
   </>
    
   
