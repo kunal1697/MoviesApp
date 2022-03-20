@@ -3,7 +3,7 @@
 ## Hosting 
 This app is hosted on github page
 Please Click on Given link :
-`https://kunal1697.github.io/MoviesApp/`
+[https://kunal1697.github.io/MoviesApp/](https://kunal1697.github.io/MoviesApp/)
 
 
 ## Available Scripts
